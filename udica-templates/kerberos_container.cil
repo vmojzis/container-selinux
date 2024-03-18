@@ -1,0 +1,39 @@
+(block kerberos_container
+	(optional kerberos_container_optional
+		(allow process gssd_t (key (read setattr view write)))
+		(allow process self (key (read setattr view write)))
+		(allow process kerberos_port_t (tcp_socket (name_connect recv_msg send_msg)))
+		(allow process kerberos_port_t (udp_socket (recv_msg send_msg)))
+	)
+)
+
+(block kerberos_container_extended
+	(optional kerberos_container_extended_optional
+		(allow process gssd_t (key (read setattr view write)))
+		(allow process self (key (read setattr view write)))
+		(allow process self (udp_socket (append bind connect create getattr getopt ioctl lock read setattr setopt shutdown write)))
+		(allow process self (tcp_socket (append bind connect create getattr getopt ioctl lock read setattr setopt shutdown write)))
+	)
+	(optional kerberos_container_extended_optional_2
+		(allow process krb5_conf_t (dir (getattr ioctl lock open read search)))
+		(allow process krb5_conf_t (file (getattr ioctl lock open read)))
+		(allow process krb5_host_rcache_t (file (getattr)))
+		(allow process krb5_host_rcache_t (dir (getattr open search)))
+		(allow process ocsp_client_packet_t (packet (recv send)))
+		(allow process kerberos_client_packet_t (packet (recv send)))
+		(allow process ocsp_port_t (tcp_socket (name_connect)))
+		(allow process kerberos_port_t (tcp_socket (name_connect recv_msg send_msg)))
+		(allow process kerberos_port_t (udp_socket (recv_msg send_msg)))
+		(allow process node_t (udp_socket (node_bind)))
+		(allow process node_t (tcp_socket (node_bind)))
+		(allow process node_t (node (recvfrom sendto tcp_recv tcp_send udp_recv udp_send)))
+		(allow process netif_t (netif (egress ingress tcp_recv tcp_send udp_recv udp_send)))
+	)
+	(optional kerberos_container_extended_optional_3
+		(allow process sssd_t (unix_stream_socket (connectto)))
+		(allow process sssd_var_run_t (dir (getattr open search)))
+		(allow process sssd_var_run_t (sock_file (append getattr open write)))
+		(allow process sssd_public_t (dir (ioctl read getattr lock open search)))
+		(allow process sssd_public_t (file (getattr ioctl lock map open read)))
+	)
+)
